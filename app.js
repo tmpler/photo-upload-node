@@ -18,12 +18,12 @@ app.set('photos', path.join(__dirname, 'public', 'photos'));
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', photos.list);
-app.use('/users', users);
+app.get('/', photos.list);
+app.get('/users', users);
 app.get('/upload', photos.form);
 app.post('/upload', photos.submit(app.get('photos')));
 // catch 404 and forward to error handler

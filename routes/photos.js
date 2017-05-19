@@ -3,20 +3,15 @@ var path = require('path');
 var fs = require('fs');
 var join = path.join;
 
-exports.list = function(req, res){
-    res.render('photos', {
-      title: 'Photos',
-      photos: photos
-    });
-};
-exports.form = function(req, res){
+exports.form = function(req, res, next){
   res.render('photos/upload', {
     title: 'Photo upload'
   });
 };
 exports.submit = function(dir){
   return function(req,res,next){
-    var img = req.files.photo.image;
+    console.log(req);
+    var img = req.body.photo.image;
     var name = req.body.photo.name || img.name;
     var path = join(dir, img.name);
 
