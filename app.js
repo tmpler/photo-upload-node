@@ -17,13 +17,14 @@ app.set('photos', path.join(__dirname, 'public', 'photos'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(fileUpload());
+app.use(fileUpload({safeFileNames: true, preserveExtension: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', photos.list);
 app.get('/users', users);
 app.get('/upload', photos.form);
+app.get('/photo/:id/download', photos.download(app.get('photos')));
 app.post('/upload', photos.submit(app.get('photos')));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
