@@ -10,13 +10,12 @@ exports.form = function(req, res, next){
 };
 exports.submit = function(dir){
   return function(req,res,next){
-    console.log(req);
-    var img = req.body.photo.image;
-    var name = req.body.photo.name || img.name;
+    var img = req.files.image;
+    var name = req.body.name || img.name;
+    img.name = name;
     var path = join(dir, img.name);
-
-    fs.rename(img.path, path, function(err){
-      if(err) {
+    img.mv(path, function(err){
+      if(err){
         return next(err);
       };
       Photo.create({
@@ -25,8 +24,8 @@ exports.submit = function(dir){
       }, function(err){
         if(err){
           return next(err);
-          res.redirect('/');
         };
+        res.redirect('/');
       });
     });
   };
