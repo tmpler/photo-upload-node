@@ -36,3 +36,15 @@ exports.submit = function(dir){
     });
   };
 };
+
+exports.list = function(req, res, next){
+  Photo.find({}, function(err,photos){
+    if(err){
+      return next(err);
+    }
+    res.render('photos', {
+      title: 'Photos',
+      photos:  photos
+    });
+  });
+};
